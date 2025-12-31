@@ -1,11 +1,10 @@
 from django.contrib import admin
 from .models import Category,Blog
 # Register your models here.
-admin.site.register(Category)
 
 
 class BlogAdmin(admin.ModelAdmin):
-    list_display=['title','author',
+    list_display=['id','title','author',
                   'short_descriptions',
                   'created_at','is_featured',
                   'status']
@@ -14,7 +13,8 @@ class BlogAdmin(admin.ModelAdmin):
     list_editable=['is_featured']
     list_per_page=10
     
+    
    
 
-
+admin.site.register(Category)
 admin.site.register(Blog,BlogAdmin)
