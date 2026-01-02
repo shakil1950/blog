@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from blogs.models import Category,Blog,AboutUs,SocialMediaLink
+from .forms import RegistrationForm
 
 def home(request):
     about_us=AboutUs.objects.last()
@@ -14,4 +15,22 @@ def home(request):
     }
   
     return render(request,'home/home.html',context)
+
+
+def registration(request):
+
+    if request.method=='POST':
+        form=RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form=RegistrationForm()
+            return redirect('home')
+        else:
+            print(form.errors)
+    else:
+        form=RegistrationForm()
+    context={
+        'form':form
+    }
+    return render(request,'authentication/registration.html',context)
 

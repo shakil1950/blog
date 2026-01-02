@@ -67,3 +67,10 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
+
+.register{
+  max-width: 500px !important;
+  max-height: 10%;
+  margin: auto !important;
+  justify-items: center;
+}
