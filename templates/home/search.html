@@ -1,18 +1,11 @@
-
-      
-      {% extends "home/base.html" %}
-
-      {% block content %}
-      
-   
-      <h3 class="fst-italic border-bottom text-warning mx-3 px-1">{{category}}</h3>
-
- 
-      <div class="row mb-2">
-        {% if posts %}
+{% extends "home/base.html" %}
+{% block content %}
+<h3 class="fst-italic border-bottom text-warning mx-3 px-1">You search for {{kewword}}</h3>
+<div class="row mb-2">
+        {% if blogs %}
         
        
-        {% for post in posts %} 
+        {% for post in blogs %} 
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body">
@@ -29,6 +22,4 @@
           <h4 class="text-danger mx-4 px-2">No posts available in this category</h4>
         {% endif %}
       </div>
-     
-     {% endblock %}
- 
+{% endblock content %}
