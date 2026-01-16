@@ -2,14 +2,14 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-
+ 
 <div class="register">
     <div class="card shadow-lg">
       <div class="card-body p-4">
         
         <h3 class="text-center mb-4">
           <i class="bi bi-person-plus-fill text-primary"></i>
-          Register
+          Login
         </h3>
 
         <form action='#' method='POST' >
@@ -19,11 +19,13 @@
         </form>
 
         <p class="text-center mt-3 mb-0">
-          Already have an account?
-          <a href="{% url "login" %}" class="text-decoration-none">Login</a>
+          Do you  have an account?
+          <a href="{% url "registration" %}" class="text-decoration-none">Register</a>
         </p>
 
       </div>
     </div>
   </div>
+
+
 {% endblock content %}

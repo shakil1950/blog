@@ -13,5 +13,7 @@ urlpatterns = [
     path('<slug:slug>/',blog_views.blog_detail,name='blog_detail'),
     path('blogs/search/',blog_views.search,name='search'),
     path('user/register/',views.registration,name='registration'),
+    path('user/login/',views.login,name='login'),
+    path('user/logout/',views.logout,name='logout'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
