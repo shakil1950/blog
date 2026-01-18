@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blogs',
     "crispy_forms",
     "crispy_bootstrap4",
+    "dashboard",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -128,3 +129,6 @@ STATIC_ROOT=BASE_DIR/'static'
 STATICFILES_DIRS=['blogsite/static',]
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR/'media'
+
+LOGIN_URL = 'user/login/'
+
