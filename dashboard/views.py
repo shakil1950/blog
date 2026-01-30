@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from blogs.models import Category,Blog
 from django.contrib.auth.decorators import login_required
-from .forms import AddCatgoryForm,PostForm
+from .forms import AddCatgoryForm,PostForm,UserForm
 from django.utils.text import slugify
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -121,3 +122,31 @@ def delete_post(request,slug):
     post.delete()
     messages.success(request,'Post deleted')
     return redirect('view_post')
+
+@login_required
+def view_user(request):
+    user=User.objects.all().exclude(id=request.user.id)
+    context={
+        'users':user
+    }
+    return render(request,'dashboard/user.html',context)
+
+@login_required
+def add_user(request):
+
+    if request.method=='POST':
+        forms=UserForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            messages.success(request,'user created successfully')
+            return redirect('view_user')
+        else:
+            forms=UserForm()
+
+    forms=UserForm()
+
+    context={
+        'forms':forms
+    }
+
+    return render(request,'dashboard/add_user.html',context)

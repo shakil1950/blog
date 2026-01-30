@@ -1,5 +1,7 @@
 from django import forms
 from blogs.models import Category,Blog
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class AddCatgoryForm(forms.ModelForm):
 
@@ -18,3 +20,8 @@ class PostForm(forms.ModelForm):
             'blog_body':'Write Content',
             'is_featured':'Featured This Post'
         }
+
+class UserForm(UserCreationForm):
+    class meta:
+        model=User
+        fields=['username','password1','password2','email','first_name','last_name']
