@@ -1,8 +1,8 @@
   <div class='col-md-2'>
         <div  class='nav flex-column nav-pills bg-light' aria-orientation='vertical'>
             <a href="{% url "dashboard" %}" class="nav-link text-dark {% if '/dashboard/' == request.path %}bg-warning {% endif %}">Dashboard</a>
-            <a href="{% url "categories" %}" class="nav-link text-dark {% if 'Category' in request.path %}bg-warning {% endif %}">Categories</a>
-            <a href="#" class="nav-link text-dark">Blogs</a>
+            <a href="{% url "categories" %}" class="nav-link text-dark {% if 'category' in request.path %}bg-warning {% endif %}">Categories</a>
+            <a href="{% url "view_post" %}" class="nav-link text-dark {% if 'post' in request.path %}bg-warning {% endif %}">Post</a>
             <a href="{% url "logout" %}" class="nav-link text-dark">Logout</a>
         </div>
     </div>

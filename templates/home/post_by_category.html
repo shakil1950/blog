@@ -1,7 +1,7 @@
 
       
       {% extends "home/base.html" %}
-
+      {% block title %} {{category}} {% endblock title %}
       {% block content %}
       
    
@@ -24,6 +24,7 @@
             </div>
           </div>
         </div>
+        
          {% endfor %}
           {% else %}
           <h4 class="text-danger mx-4 px-2">No posts available in this category</h4>

@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from blogs.models import Category,Blog
 from django.contrib.auth.decorators import login_required
-from .forms import AddCatgoryForm
-
+from .forms import AddCatgoryForm,PostForm
+from django.utils.text import slugify
+from django.contrib import messages
 
 
 @login_required
@@ -27,6 +28,7 @@ def add_categories(request):
         forms=AddCatgoryForm(request.POST)
         if forms.is_valid():
             forms.save()
+            messages.success(request,f'Category {{forms.category}} added successfully')
             forms=AddCatgoryForm()
             return redirect('categories')
     
@@ -43,6 +45,7 @@ def edit_categories(request,id):
         form=AddCatgoryForm(request.POST,instance=category)
         if form.is_valid():
             form.save()
+            messages.success(request,'Successfully edited')
             form=AddCatgoryForm()
             return redirect('categories')
     form=AddCatgoryForm(instance=category)
@@ -55,4 +58,66 @@ def edit_categories(request,id):
 def delete_categories(request,id):
     category=Category.objects.get(id=id)
     category.delete()
+    messages.success(request,'Successfully Deleted')
     return redirect('categories')
+
+@login_required
+def view_post(request):
+    post=Blog.objects.all()
+    context={
+        'post':post
+    }
+    return render(request,'dashboard/post.html',context)
+@login_required
+def add_post(request):
+
+    if request.method=='POST':
+        forms=PostForm(request.POST,request.FILES)
+        if forms.is_valid():
+            post=forms.save(commit=False)
+            post.author=request.user
+            title=forms.cleaned_data['title']
+            post.slug=slugify(title)
+            post.save()
+            messages.success(request,'Post successfully created')
+            return redirect('view_post')
+        else:
+            forms=PostForm()
+            return redirect('add_post')
+    forms=PostForm()
+
+    print(forms)
+    context={
+        'forms':forms
+    }
+    return render(request,'dashboard/add_post.html',context)
+
+
+@login_required
+def edit_post(request,slug):
+    post=get_object_or_404(Blog,slug=slug)
+
+    if request.method=='POST':
+        forms=PostForm(request.POST,instance=post)
+        if forms.is_valid():
+            dataSave=forms.save(commit=False)
+            dataSave.slug=slugify(forms.cleaned_data['title'])
+            dataSave.save()
+            messages.success(request,'Post edit successfully!')
+            return redirect('view_post')
+        else:
+            messages.error(request,f'Error->{{forms.errors}}')
+            print(forms.errors)
+            return redirect('edit_post')
+    forms=PostForm(instance=post)
+    context={
+        'forms':forms
+    }
+    return render(request,'dashboard/edit_post.html',context)
+
+@login_required
+def delete_post(request,slug):
+    post=get_object_or_404(Blog,slug=slug)
+    post.delete()
+    messages.success(request,'Post deleted')
+    return redirect('view_post')

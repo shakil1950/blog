@@ -1,0 +1,54 @@
+{% extends "home/base.html" %} 
+{% block title %} Post {% endblock title %}
+
+{% block content %}
+<div class="row">
+  {% comment %} Side bar {% endcomment %} 
+   {% include "dashboard/sidebar.html" %}
+  <div class="col-md-10">
+    <h4>All Posts</h4>
+    <a
+      href="{% url "add_post" %}"
+      class="btn btn-sm btn-success float-right mb-2 mx-5"
+      data-toggle="modal"
+      data-target="#staticBackdrop"
+      >Add New</a
+    >
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Created At</th>
+          <th>Post By</th>
+          <th>Featured</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in post %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{post.title}}</td>
+          <td>{{post.category}}</td>
+          <td>{{post.created_at}}</td>
+          <td>{{post.author}}</td>
+          <td>{% if post.is_featured %} <i class="fa fa-check text-success"></i> {% else %} <i class="fa fa-times text-danger"></i> {% endif %}</td>
+          <td>{{post.status}}</td>
+          <td>
+            <a href="{% url "edit_post" post.slug %}"><i class="fa fa-edit text-success"></i></a> &nbsp;
+            <a href="{% url "delete_post" post.slug %}"><i class="fa fa-trash text-danger" id='id_category_name'></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--     Modal  -->
+       
+  </div>
+
+</div>
+
+{% endblock content %}
