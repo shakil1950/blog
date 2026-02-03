@@ -22,6 +22,12 @@ class PostForm(forms.ModelForm):
         }
 
 class UserForm(UserCreationForm):
-    class meta:
+    class Meta:
         model=User
-        fields=['username','password1','password2','email','first_name','last_name']
+        fields=['username','email','first_name','last_name','is_active']
+
+class EditUserForm(forms.ModelForm):
+
+    class Meta:
+        model=User
+        fields=['first_name','last_name','is_active']

@@ -6,6 +6,9 @@
   {% comment %} Side bar {% endcomment %} 
    {% include "dashboard/sidebar.html" %}
   <div class="col-md-10">
+    {% if perms.blogs.view_blog %}
+    
+ 
     <h4>All Posts</h4>
     {% if perms.blogs.add_blog %}
     <a
@@ -56,7 +59,9 @@
       </tbody>
     </table>
     <!--     Modal  -->
-       
+          {% else %}
+          <h5>No content to show as permission violated</h5>
+    {% endif %}
   </div>
 
 </div>

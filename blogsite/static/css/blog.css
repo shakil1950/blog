@@ -74,3 +74,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: auto !important;
   justify-items: center;
 }
+
+.blog-image{
+  width: 40% !important;
+  height:20% !important
+}

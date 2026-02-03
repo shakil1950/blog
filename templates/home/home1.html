@@ -1,0 +1,92 @@
+
+{% extends "home/base.html" %}
+{% block title %} Home Page {% endblock title %}
+{% block content %}
+
+
+      {% for featured in featured_post %} {% if forloop.first %}
+
+      <div
+        class="jumbotron p-3 p-md-5 text-white rounded bg-dark"
+        style="background-image: url({{featured.featured_image.url}});background-blend-mode: overlay;background-size:cover;"
+      >
+        <div class="col-md-8 px-0">
+          <h1 class="display-4 font-italic">{{featured.title | upper}}</h1>
+          <p class="lead my-3">
+            {{featured.short_descriptions | truncatewords:10}}
+          </p>
+          <p class="lead mb-0">
+            <a href="{% url "blog_detail" featured.slug %}" class="text-white font-weight-bold"
+              >Continue reading...</a
+            >
+          </p>
+        </div>
+      </div>
+
+      {% endif %} {% endfor %}
+      <h3 class="fst-italic border-bottom mx-4 ">Featured Post</h3>
+      <div class="row mb-2">
+        {% for post in featured_post %} {% if not forloop.first %}
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body">
+              <h3 class="text-info"><a href='{% url "blog_detail" post.slug %}'>{{post.title | upper}} </a></h3>
+              <small class="mb-1 text-muted"
+                >{{post.created_at | timesince}} ago | {{post.author}}</small
+              >
+              <p class="card-text">{{post.short_descriptions}}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+      <h3 class="fst-italic border-bottom mx-4 ">Recent Posts</h3>
+      <main role="main" class="container-fluid p-0 ">
+        <div class="row">
+          <div class="col-md-8 blog-main">
+            <div class="row">
+              {% for post in sample_post %}
+              <div class="col-4">
+                <div div class="card border-0">
+                  <div class="card-body">
+                    <h3 class="text-danger"><a href='{% url "blog_detail" post.slug %}'>{{post.title | upper}} </a></h3>
+                    <small class="mb-1 text-muted"
+                      >{{post.created_at | timesince}} ago |
+                      {{post.author}}</small
+                    >
+                    <p class="card-text">
+                      {{post.short_descriptions | truncatewords:10}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {% endfor %}
+            </div>
+            <!-- /.blog-post -->
+          </div>
+          <!-- /.blog-main -->
+
+          <aside class="col-md-4 blog-sidebar">
+            <div class="p-3 mb-3 bg-light rounded">
+              <h4 class="font-italic">About</h4>
+              <p class="mb-0">
+               {{about_us.content}}
+              </p>
+            </div>
+
+            <div class="p-3">
+              <h4 class="font-italic">Follow Us</h4>
+              <ol class="list-unstyled">
+                <li><a href="#">GitHub</a></li>
+                <li><a href="#">LinkedIn</a></li>
+              </ol>
+            </div>
+          </aside>
+          <!-- /.blog-sidebar -->
+        </div>
+        <!-- /.row -->
+      </main>
+      <!-- /.container -->
+    </div>
+ {% endblock %}

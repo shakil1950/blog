@@ -12,5 +12,7 @@ urlpatterns = [
     path('post/delete/<slug>',views.delete_post,name='delete_post'),
     path('user/',views.view_user,name='view_user'),
     path('user/add',views.add_user,name='add_user'),
+    path('user/edit/<int:id>',views.edit_user,name='edit_user'),
+    path('user/delete/<int:id>',views.delete_user,name='delete_user'),
 
 ]

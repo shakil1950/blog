@@ -6,6 +6,7 @@
   {% comment %} Side bar {% endcomment %} 
    {% include "dashboard/sidebar.html" %}
   <div class="col-md-10">
+    {% if perms.auth.view_user %}
     <h4>All Posts</h4>
     {% if perms.auth.add_user %}
     <a
@@ -49,10 +50,10 @@
         
           <td>
             {% if perms.auth.change_user %}
-            <a href="#"><i class="fa fa-edit text-success"></i></a> &nbsp;
+            <a href="{% url "edit_user" user.id %}"><i class="fa fa-edit text-success"></i></a> &nbsp;
             {% endif %}
             {% if perms.blogs.delete_user %}
-             <a href="#"><i class="fa fa-trash text-danger" id='id_category_name'></i></a>
+             <a href="{% url "delete_user" user.id %}"><i class="fa fa-trash text-danger" id='id_category_name'></i></a>
             
             {% endif %}
            
@@ -61,7 +62,9 @@
       </tbody>
     </table>
     <!--     Modal  -->
-       
+         {% else %}
+         <h5>You don't have permission</h5>
+      {% endif %} 
   </div>
 
 </div>

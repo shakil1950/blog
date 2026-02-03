@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Blog,Category
+from django.http import HttpResponseRedirect
+from .models import Blog,Category,Comments
 from django.db.models import Q
 
 
@@ -20,9 +21,20 @@ def post_by_category(request,category_id):
 
 def blog_detail(request,slug):
     blog=get_object_or_404(Blog,slug=slug,status='Published')
- 
+
+    if request.method=='POST':
+        com=Comments()
+        com.user=request.user
+        com.blog=blog
+        com.comment=request.POST['comment']
+        com.save()
+        return HttpResponseRedirect(request.path)
+    comment=Comments.objects.filter(blog=blog,status='show')
+    all_comment_blog=comment.count()
     context={
-        'blog':blog
+        'blog':blog,
+        'comment':comment,
+        'all_comment_blog':all_comment_blog
     }
     return render(request,'home/blog_detail.html',context)
 

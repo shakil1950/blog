@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from blogs.models import Category,Blog
 from django.contrib.auth.decorators import login_required
-from .forms import AddCatgoryForm,PostForm,UserForm
+from .forms import AddCatgoryForm,PostForm,UserForm,EditUserForm
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -150,3 +150,18 @@ def add_user(request):
     }
 
     return render(request,'dashboard/add_user.html',context)
+
+@login_required
+def edit_user(request,id):
+    user=get_object_or_404(User,id=id)
+    forms=EditUserForm(instance=user)
+    context={
+        'forms':forms
+    }
+    return render(request,'dashboard/edit_user.html',context)
+
+@login_required
+def delete_user(request,id):
+    user=get_object_or_404(User,id=id)
+    user.delete()
+    return redirect('view_user')

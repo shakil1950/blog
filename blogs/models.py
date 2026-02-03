@@ -17,7 +17,11 @@ class Category(models.Model):
 STATUS_CHOICES=[
     ("Draft","Draft"),
     ("Published","Published")
-]    
+]  
+COMMENTS_CHOICES_STATUS=[
+    ('show','show'),
+    ('hide','hide')
+]  
 class Blog(models.Model):
     title=models.CharField(max_length=100)
     slug=models.SlugField(max_length=150,unique=True,blank=True)
@@ -50,3 +54,15 @@ class SocialMediaLink(models.Model):
 
     def __str__(self):
         return self.platform_name
+    
+class Comments(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    blog=models.ForeignKey(Blog,on_delete=models.CASCADE)
+    comment=models.TextField(blank=False,null=False)
+    status=models.CharField(choices=COMMENTS_CHOICES_STATUS,default='show',blank=True,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment
+    

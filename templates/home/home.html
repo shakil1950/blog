@@ -1,92 +1,62 @@
-
 {% extends "home/base.html" %}
-{% block title %} Home Page {% endblock title %}
+{% load static %}
+{% block title %}
+HomePage
+{% endblock title %}+
+
+{% block hero %}
+<div class="container" id="hero">
+	  	<div class="row justify-content-end">
+	  		<div class="col-lg-6 hero-img-container">
+	  			<a href="">
+	  			<div class="hero-img">
+	  				<img src="{% static 'image/hero-img.png' %}">
+	  			</div>
+	  			</a>
+	  		</div>	  		
+
+	  		<div class="col-lg-9">
+	  			<div class="hero-title">
+	  				<a href="./single.html">
+	  				<h1>To theory equation, more have the or to was the</h1>
+	  				</a>
+	  			</div>
+
+	  		</div>
+
+	  		<div class="col-lg-6">
+	  			<div class="hero-meta">
+	  				<p>Herself of that similar live good up which is are to for French endeavours, screen.</p>
+	  				<div class="author">
+	  					<div class="author-img"><img src="./img/author-img.png"></div>
+	  					<div class="author-meta">
+	  					<span class="author-name">Celeste Connell</span>
+	  					<span class="author-tag">Travel Blogger</span>
+	  					</div>	
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  </div>
+{% endblock hero %}
 {% block content %}
+    <div class="row justify-content-center">
 
+		<div class="col-xl-6 col-lg-12 text-center">
+			<a href="./single.html">
+			<div class="article-card">
+			<div class="article-img">
+				<img src="./img/1.jpeg">
+			</div>
 
-      {% for featured in featured_post %} {% if forloop.first %}
+				<div class="article-meta text-left">
+					<h2>I tighten my siddur, which they fail to someone else's</h2>
+					<p>Most of culture that the sensitivity of the condition of puppy love, my lemons.</p>
+				</div>
+			</div>
+			</a>
+		</div>
+	
 
-      <div
-        class="jumbotron p-3 p-md-5 text-white rounded bg-dark"
-        style="background-image: url({{featured.featured_image.url}});background-blend-mode: overlay;background-size:cover;"
-      >
-        <div class="col-md-8 px-0">
-          <h1 class="display-4 font-italic">{{featured.title | upper}}</h1>
-          <p class="lead my-3">
-            {{featured.short_descriptions | truncatewords:10}}
-          </p>
-          <p class="lead mb-0">
-            <a href="{% url "blog_detail" featured.slug %}" class="text-white font-weight-bold"
-              >Continue reading...</a
-            >
-          </p>
-        </div>
-      </div>
-
-      {% endif %} {% endfor %}
-      <h3 class="fst-italic border-bottom mx-4 ">Featured Post</h3>
-      <div class="row mb-2">
-        {% for post in featured_post %} {% if not forloop.first %}
-        <div class="col-md-4">
-          <div class="card border-0">
-            <div class="card-body">
-              <h3 class="text-info"><a href='{% url "blog_detail" post.slug %}'>{{post.title | upper}} </a></h3>
-              <small class="mb-1 text-muted"
-                >{{post.created_at | timesince}} ago | {{post.author}}</small
-              >
-              <p class="card-text">{{post.short_descriptions}}</p>
-            </div>
-          </div>
-        </div>
-        {% endif %} {% endfor %}
-      </div>
-      <h3 class="fst-italic border-bottom mx-4 ">Recent Posts</h3>
-      <main role="main" class="container-fluid p-0 ">
-        <div class="row">
-          <div class="col-md-8 blog-main">
-            <div class="row">
-              {% for post in sample_post %}
-              <div class="col-4">
-                <div div class="card border-0">
-                  <div class="card-body">
-                    <h3 class="text-danger"><a href='{% url "blog_detail" post.slug %}'>{{post.title | upper}} </a></h3>
-                    <small class="mb-1 text-muted"
-                      >{{post.created_at | timesince}} ago |
-                      {{post.author}}</small
-                    >
-                    <p class="card-text">
-                      {{post.short_descriptions | truncatewords:10}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {% endfor %}
-            </div>
-            <!-- /.blog-post -->
-          </div>
-          <!-- /.blog-main -->
-
-          <aside class="col-md-4 blog-sidebar">
-            <div class="p-3 mb-3 bg-light rounded">
-              <h4 class="font-italic">About</h4>
-              <p class="mb-0">
-               {{about_us.content}}
-              </p>
-            </div>
-
-            <div class="p-3">
-              <h4 class="font-italic">Follow Us</h4>
-              <ol class="list-unstyled">
-                <li><a href="#">GitHub</a></li>
-                <li><a href="#">LinkedIn</a></li>
-              </ol>
-            </div>
-          </aside>
-          <!-- /.blog-sidebar -->
-        </div>
-        <!-- /.row -->
-      </main>
-      <!-- /.container -->
-    </div>
- {% endblock %}
+	</div>
+{% endblock content %}

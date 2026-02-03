@@ -7,6 +7,7 @@
   {% comment %} Side bar {% endcomment %} 
    {% include "dashboard/sidebar.html" %}
   <div class="col-md-10">
+    {% if perms.blogs.view_category %}
     <h4>All Categories</h4>
 
     {% if perms.blogs.add_category %}
@@ -52,8 +53,10 @@
         {% endfor %}
       </tbody>
     </table>
-    <!--     Modal  -->
-       
+    
+        {% else %}
+        <h5>You don't have permission</h5>
+       {% endif %}
   </div>
 
 </div>

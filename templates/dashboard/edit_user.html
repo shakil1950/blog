@@ -1,13 +1,15 @@
 {% extends "home/base.html" %}
-{% block title %} Edit Post {% endblock title %}
+{% block title %} Edit User {% endblock title %}
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="row">
   {% comment %} Side bar {% endcomment %} 
    {% include "dashboard/sidebar.html" %}
   <div class="col-md-10">
-    {% if perms.blogs.add_blog %}
-    <h4>Edit Post</h4>
+    {% if perms.auth.add_user %}
+    
+    
+    <h4>Edit User</h4>
     <div style="width:40%" class='rounded border-primary'>
         <form action="#" method="POST">
             {% csrf_token %}
@@ -15,9 +17,10 @@
             <button class='btn btn-sm btn-success' type='submit' id='form_submit'>Submit</button>
         </form>
     </div>
-    {% else %}
-    <h5>You don't have permission<h5>
-     {% endif %}  
+
+     {% else %}
+     <h5>You don't have permission</h5>
+    {% endif %}  
   </div>
 
 </div>

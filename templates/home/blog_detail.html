@@ -17,12 +17,41 @@
                     <a class="badge bg-primary text-decoration-none text-light" href="{% url "post_category" blog.category_id%}">{{blog.category}}</a>
                 </header>
                 <!-- Preview image figure-->
-                <figure class="mb-4"><img class="img-fluid rounded" src="{{blog.featured_image.url}}" alt="Blog Image" /></figure>
+                <figure class="mb-4"><img class="img-fluid rounded blog-image" src="{{blog.featured_image.url}}" alt="Blog Image" /></figure>
                 <!-- Post content-->
                 <section class="mb-5">
                     <p class="fs-5 mb-4">{{blog.short_descriptions}}</p>
                     <p class="fs-5 mb-4">{{blog.blog_body}}</p>
-                    </section>
+                 </section>
+                 
+                 <h4>Comments({{all_comment_blog}})</h4>
+                 {% if user.is_authenticated %}
+                 <div class='form'>
+                    <form action="" method='POST'>
+                        {% csrf_token %}
+                        <div class='form-group'>
+                            <textarea type='text' class='form-control mb-1' name='comment' placeholder="Write your comment here.."></textarea>
+                            <button class='btn btn-sm btn-success'>Submit</button>
+                        </div>
+                    </form>
+                 </div>
+
+                 {% if comment %}
+                 {% for comment in comment %}
+                 <div class='card mb-1'>
+                    <div class='card-body'>
+                          <p class='text'>{{comment.comment}} 
+                            <br><small class='text text-muted'>{{comment.user}} | {{comment.created_at|timesince}} ago</small>
+                        </p>
+                    </div>
+                 </div>
+                 {% endfor %}
+                 {% else %}
+                 <h4>No comments yet</h4>
+                 {% endif %}
+                 {% else %}
+                 <p>You have to <span><a href="{% url "login" %}">login</a></span> first to see comments
+                 {% endif %}
             </article>
         </div>
         <!-- Side widgets-->
