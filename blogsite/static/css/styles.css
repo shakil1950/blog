@@ -1,15 +1,9 @@
-/*
-Template Name: Roundy
-Template  URI: https://newtodesign.com/roundy
-Author: NewToDesign
-Author URI: https://newtodesign.com/
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
 
 body {
 	text-rendering : optimizeLegibility;
 	-webkit-font-smoothing : antialiased;
+	background: linear-gradient(rgba(1, 27, 23, 0.195),rgba(255, 255, 255, 0.934));
+	
 }
 
 a:hover {
@@ -22,13 +16,13 @@ a:hover {
 	color: #000000 !important;
 }
 
-.container-fluid {
+/* .container-fluid {
 	background-color: #FCFAFA;
-}
+} */
 
 #hero {
-	padding: 80px 0;
-	min-height: 700px;
+	padding: 40px 0;
+	min-height: 400px;
 	position: relative;
 }
 
@@ -51,8 +45,8 @@ a:hover {
 }
 
 .hero-img {
-	max-width: 540px !important;
-	height: 540px;
+	max-width: 500px !important;
+	height: 500px;
 	overflow: hidden;
 	border-radius: 100%;
 }
@@ -61,9 +55,12 @@ a:hover {
 	width: 100%;
 	height: auto;
 }
+footer{
+	background: linear-gradient(white,rgba(9, 9, 9, 0.674));
+}
 
 .hero-title {
-	background-color: #FCFAFA;
+	background-color: rgb(244, 249, 248);
 	border-radius: 150px;
 	padding: 25px 60px;
 	padding-right: 10px;
@@ -72,9 +69,9 @@ a:hover {
 }
 
 .hero-title h1 {
-	font-size: 60px;
+	font-size: 40px;
 	font-weight: bold;
-	line-height: 70px;
+	line-height: 50px;
 	color: #000;
 	text-decoration: none;
 	transition: 500ms;
@@ -194,7 +191,13 @@ footer a {
 	color: #000;
 }
 
-
+.nav-search{
+	max-width: 100px;
+	max-height: 50px;
+	background: transparent !important;
+	outline: #e91111 !important;
+	color: black !important;
+}
 
 #content .lead {
 	font-size: 22px;

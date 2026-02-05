@@ -6,19 +6,20 @@ HomePage
 
 {% block hero %}
 <div class="container" id="hero">
-	  	<div class="row justify-content-end">
+	  	<div class="row justify-content-end">+
+			{% for featured in featured_post %} {% if forloop.first %}
 	  		<div class="col-lg-6 hero-img-container">
-	  			<a href="">
+	  			<a href="{% url "blog_detail" featured.slug %}">
 	  			<div class="hero-img">
-	  				<img src="{% static 'image/hero-img.png' %}">
+	  				<img src="{{featured.featured_image.url}}">
 	  			</div>
 	  			</a>
 	  		</div>	  		
 
 	  		<div class="col-lg-9">
 	  			<div class="hero-title">
-	  				<a href="./single.html">
-	  				<h1>To theory equation, more have the or to was the</h1>
+	  				<a href="{% url "blog_detail" featured.slug %}">
+	  				<h1>{{featured.title |upper}}</h1>
 	  				</a>
 	  			</div>
 
@@ -26,36 +27,43 @@ HomePage
 
 	  		<div class="col-lg-6">
 	  			<div class="hero-meta">
-	  				<p>Herself of that similar live good up which is are to for French endeavours, screen.</p>
+	  				<p>{{featured.short_descriptions}}</p>
 	  				<div class="author">
-	  					<div class="author-img"><img src="./img/author-img.png"></div>
+	  					<div class="author-img"><img src="{% static 'image/author-img.png' %}"></div>
 	  					<div class="author-meta">
-	  					<span class="author-name">Celeste Connell</span>
-	  					<span class="author-tag">Travel Blogger</span>
+	  					<span class="author-name">{{featured.author}}</span>
+	  					<span class="author-tag">IT Blogger</span>
 	  					</div>	
 	  				</div>
 	  			</div>
 	  		</div>
+			{% endif %}
+			{% endfor %}
 	  	</div>
-	  </div>
+</div>
 {% endblock hero %}
 {% block content %}
+<div class="container text-center pb-3 mt-5">
+		<a  class="btn btn-lg btn-light">More Articles</a>
+</div>
     <div class="row justify-content-center">
-
+		{% for post in sample_post %}
 		<div class="col-xl-6 col-lg-12 text-center">
-			<a href="./single.html">
+			<a href="{% url "blog_detail" post.slug %}">
 			<div class="article-card">
 			<div class="article-img">
-				<img src="./img/1.jpeg">
+				<img src="{{post.featured_image.url}}">
 			</div>
 
 				<div class="article-meta text-left">
-					<h2>I tighten my siddur, which they fail to someone else's</h2>
-					<p>Most of culture that the sensitivity of the condition of puppy love, my lemons.</p>
+					<h2>{{post.title | upper}}</h2>
+					<span><small class='text text-muted'>{{post.author}} | {{post.created_at | timesince}} ago</small></span>
+					<p>{{post.short_descriptions |truncatewords:20}}</p>
 				</div>
 			</div>
 			</a>
 		</div>
+		{% endfor %}
 	
 
 	</div>

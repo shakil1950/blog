@@ -1,30 +1,66 @@
 {% extends "home/base.html" %}
-{% block title %} Detail Blog {% endblock title %}
+{% load static %}
+{% block title %}
+Details
+{% endblock title %}+
+
+{% block hero %}
+<div class="container" id="hero">
+	  	<div class="row justify-content-end">
+	  		<div class="col-lg-6 hero-img-container">
+	  			<div class="hero-img">
+	  				<!-- hero img -->
+	  				<img src="{{blog.featured_image.url}}">
+	  			</div>
+	  		</div>	  		
+
+	  		<div class="col-lg-9">
+	  			<div class="hero-title">
+	  				<h1>{{blog.title}}</h1>
+	  			</div>
+
+	  		</div>
+	  		<!-- hero meta -->
+	  		<div class="col-lg-6">
+	  			<div class="hero-meta">
+	  				<div class="author">
+	  					<div class="author-img"><img src="./img/author-img.png"></div>
+	  					<div class="author-meta">
+	  					<span class="author-name">{{blog.autor}}</span>
+	  					<span class="author-tag">Travel Blogger</span>
+	  					</div>	
+	  				</div>
+	  				<span class="date mt-2">{{blog.created_at | timesince}}</span>
+	  				<div class="tags mt-2">
+							<a href="{% url "post_category" blog.category.id %}"><span class="badge badge-pill p-2 badge-primary">#{{blog.category}}</span></a>
+							<a href="">
+							<span class="badge badge-pill p-2 badge-light">#Flight</span></a>
+							<a href="">
+							<span class="badge badge-pill p-2 badge-light">#Vlogger</span></a>
+	  				</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  </div>
+{% endblock hero %}
 {% block content %}
-<!-- Page content-->
-<div class="container-fluid mt-5">
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- Post content-->
-            <article>
-                <!-- Post header-->
-                <header class="mb-4">
-                    <!-- Post title-->
-                    <h1 class="fw-bolder mb-1">{{blog.title}}</h1>
-                    <!-- Post meta content-->
-                    <div class="text-muted fst-italic mb-2">Posted on {{blog.created_at}} by admin</div>
-                    <!-- Post category-->
-                    <a class="badge bg-primary text-decoration-none text-light" href="{% url "post_category" blog.category_id%}">{{blog.category}}</a>
-                </header>
-                <!-- Preview image figure-->
-                <figure class="mb-4"><img class="img-fluid rounded blog-image" src="{{blog.featured_image.url}}" alt="Blog Image" /></figure>
-                <!-- Post content-->
-                <section class="mb-5">
-                    <p class="fs-5 mb-4">{{blog.short_descriptions}}</p>
-                    <p class="fs-5 mb-4">{{blog.blog_body}}</p>
-                 </section>
-                 
-                 <h4>Comments({{all_comment_blog}})</h4>
+<div class="container-fluid mt-5" id="content">
+	<div class="row justify-content-center">
+		<!-- Share buttons -->
+		<div class="col-lg-1 text-left mb-3 fixed" id="social-share">
+			<a class="btn  btn-light m-2" href="#"><i class="fab fa-facebook-f"></i></a>
+			<a class="btn  btn-light m-2" href="#"><i class="fab fa-google"></i></a>
+			<a class="btn  btn-light m-2" href="#"><i class="fab fa-twitter"></i></a>
+		</div>
+
+		<!-- the content -->
+		<div class="col-xl-7 col-lg-10 col-md-12">
+			<p class="lead">{{blog.short_descriptions}}</p>
+
+			<p>{{blog.body}}</p>
+
+			<div>
+                <h4>Comments({{all_comment_blog}})</h4>
                  {% if user.is_authenticated %}
                  <div class='form'>
                     <form action="" method='POST'>
@@ -36,53 +72,54 @@
                     </form>
                  </div>
 
-                 {% if comment %}
-                 {% for comment in comment %}
+                 {% if comments %}
+                 {% for comment in comments %}
                  <div class='card mb-1'>
                     <div class='card-body'>
                           <p class='text'>{{comment.comment}} 
                             <br><small class='text text-muted'>{{comment.user}} | {{comment.created_at|timesince}} ago</small>
                         </p>
                     </div>
+                    
                  </div>
                  {% endfor %}
+                 {% include "home/paginator.html" with page=comments %}
                  {% else %}
                  <h4>No comments yet</h4>
                  {% endif %}
                  {% else %}
                  <p>You have to <span><a href="{% url "login" %}">login</a></span> first to see comments
-                 {% endif %}
-            </article>
-        </div>
-        <!-- Side widgets-->
-        <div class="col-lg-4">
-          
-            
-            <!-- Categories widget-->
-            <div class="card mb-4 p-3">
-                <h4 class="font-italic">Categories</h4>
-                <div class="card-body">
-                    <div class="row">
-                        {% for cat in categories %}
-                        <div class="col-sm-3">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="{% url "post_category" cat.id %}">{{cat.category_name}}</a></li>
-                            
-                            </ul>
-                        </div>
-                    {% endfor %}
-                    </div>
-                </div>
+                 {% endif %} 
+                 
             </div>
-            <!-- Side widget-->
-            <div class="card mb-4 p-3">
-                <h4 class="font-italic">Follow Us</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                </ol>
-            </div>
-        </div>
-    </div>
+		</div>
+
+		<div class="col-lg-10 mt-3">
+			<hr>
+		</div>
+	</div>
 </div>
+
+
+<!-- Related Article Grid -->
+<div class="row justify-content-center">
+		{% for post in same_blog %}
+		<div class="col-xl-6 col-lg-12 text-center">
+			<a href="{% url "blog_detail" post.slug %}">
+	        <div class="article-card">
+                    <div class="article-img">
+                        <img src="{{post.featured_image.url}}">
+                    </div>
+
+				<div class="article-meta text-left">
+					<h2>{{post.title | upper}}</h2>
+					<span><small class='text text-muted'>{{post.author}} | {{post.created_at | timesince}} ago</small></span>
+					<p>{{post.short_descriptions |truncatewords:20}}</p>
+				</div>
+			</div>
+			</a>
+		</div>
+        {% endfor %}
+    </div>
+
 {% endblock content %}
