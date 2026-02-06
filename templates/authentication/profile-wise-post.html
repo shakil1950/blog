@@ -1,0 +1,30 @@
+{% extends "home/base.html" %} {% block title %} Post | Profile {% endblock title %} 
+{% block hero %}
+<div class="container" id="hero">
+  {% include "authentication/profile-master.html" %}
+  <hr />
+  {% include "authentication/profile-option.html" %}
+  <hr />
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card text-center mb-5">
+        <div class="card-header">All published posts</div>
+        <div class="card-body">
+          <h5 class="card-title">{{number_post}}</h5>
+          <a href="#" class="btn btn-primary">Add New</a>
+        </div>
+        <div class="card-footer text-muted">Last post 2 days ago</div>
+      </div>
+       <div class="card text-center">
+        <div class="card-header">All Draft posts</div>
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <a href="#" class="btn btn-primary">published</a>
+        </div>
+        <div class="card-footer text-muted">2 days ago</div>
+      </div>
+    </div>
+    <div class="col-sm-8">some stupid</div>
+  </div>
+</div>
+{% endblock hero %} {% block content %} {% endblock content %}

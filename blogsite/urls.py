@@ -12,9 +12,7 @@ urlpatterns = [
     path('category/',include('blogs.urls')),
     path('<slug:slug>',blog_views.blog_detail,name='blog_detail'),
     path('blogs/search/',blog_views.search,name='search'),
-    path('user/register/',views.registration,name='registration'),
-    path('user/login/',views.login,name='login'),
-    path('user/logout/',views.logout,name='logout'),
     path('dashboard/',include('dashboard.urls')),
+    path('accounts/',include('accounts.urls')),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
