@@ -9,7 +9,7 @@ def user_directory_path(instance, filename):
     return 'profile_pics/user_{0}/{1}'.format(instance.user.username, filename)
 
 class Profile(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='prof_user')
     bio=models.TextField(blank=True)
     avater=models.ImageField(default='default.jpg', upload_to=user_directory_path)
     dob=models.DateField(blank=True,null=True)

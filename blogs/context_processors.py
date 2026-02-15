@@ -10,7 +10,7 @@ def category_processors(request):
 def profile_processors(request):
     if request.user.is_authenticated:
         try:
-            profile = request.user.profile
+            profile = request.user.prof_user
             return {'profile': profile} # ডিকশনারি রিটার্ন করা হয়েছে
         except:
             return {'user_profile': None}

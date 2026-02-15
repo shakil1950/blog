@@ -29,10 +29,11 @@ HomePage
 	  			<div class="hero-meta">
 	  				<p>{{featured.short_descriptions}}</p>
 	  				<div class="author">
-	  					<div class="author-img"><img src="{% static 'image/author-img.png' %}"></div>
+						
+	  					<div class="author-img"><img src="{{featured.author.prof_user.avater.url}}"></div>
 	  					<div class="author-meta">
 	  					<span class="author-name">{{featured.author}}</span>
-	  					<span class="author-tag">IT Blogger</span>
+	  					<span class="author-tag">{{featured.author.prof_user.profession}}</span>
 	  					</div>	
 	  				</div>
 	  			</div>

@@ -1,4 +1,5 @@
 {% extends "home/base.html" %} {% block title %} Post | Profile {% endblock title %} 
+{% load crispy_forms_tags %}
 {% block hero %}
 <div class="container" id="hero">
   {% include "authentication/profile-master.html" %}
@@ -8,23 +9,185 @@
   <div class="row">
     <div class="col-sm-3">
       <div class="card text-center mb-5">
-        <div class="card-header">All published posts</div>
+        <div class="card-header"><h1>Published</h1></div>
         <div class="card-body">
-          <h5 class="card-title">{{number_post}}</h5>
-          <a href="#" class="btn btn-primary">Add New</a>
-        </div>
-        <div class="card-footer text-muted">Last post 2 days ago</div>
+          <h5 class="card-title">{{published_post}}</h5>
+          <button class="btn btn-primary" type='button' data-toggle='modal' data-target='#addpost'>Add New</button>
+          <!--Modal-->
+          <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="addpost" tabindex="-1" role="dialog" aria-labelledby="addpostTitle" aria-hidden="true">
+  <div class=" modal-dialog modal-lg modal-dialog-centered bg-muted" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addpostTitle">Add post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-       <div class="card text-center">
-        <div class="card-header">All Draft posts</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <a href="#" class="btn btn-primary">published</a>
-        </div>
-        <div class="card-footer text-muted">2 days ago</div>
+      <div class="modal-body">
+     
+
+      <form method="post" enctype='multipart/form-data'>
+          {% csrf_token %}
+          
+          <div class="row">
+              <div class="col-md-4">
+                  {{ form.title|as_crispy_field }}
+                  {{ form.featured_image|as_crispy_field }}
+              </div>
+              
+              <div class="col-md-3">
+                  {{ form.category|as_crispy_field }}
+              </div>
+                 <div class="col-md-3">
+                  {{ form.short_descriptions|as_crispy_field }}
+              </div>
+          </div>
+
+          <div class="mt-3">
+              {{ form.blog_body|as_crispy_field }}
+          </div>
+
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
       </div>
     </div>
-    <div class="col-sm-8">some stupid</div>
+  </div>
+</div>
+          <!--End Of Modal-->
+        </div>
+        <div class="card-footer text-muted">Last post {{latest |timesince}} ago</div>
+      </div>
+      <div class="card text-center">
+        <div class="card-header"><h1>Draft</h1></div>
+        <div class="card-body">
+          <h5 class="card-title">{{draft}}</h5>
+          
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-sm-8">
+      {% if posts %}
+      <div class="table-responsive-md">
+          <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+                <tbody>
+                  {% for post in posts %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{post.title}}</td>
+                    <td>{{post.category}}</td>
+                    <td>{{post.status}}</td>
+                    <td>{{post.created_at}}</td>
+                    <td>
+                          <a type="button" 
+                                  class="edit-btn" 
+                                  data-toggle="modal" 
+                                  data-target="#editModal{{ post.id }}" 
+                                  data-id="{{ post.id }}" 
+                                  data-url="{% url 'edit_post_profile_wise' post.slug %}"><i class="fa fa-edit text-success"></i>
+                            </a> &nbsp;
+                          <a class="delete-btn" 
+                                      data-id="{{ post.id }}" 
+                                       data-url="{% url 'delete_post_profile_wise' post.slug %}" type='button'><i class="fa fa-trash text-danger"></i>
+                                      </a>
+                          <!--Modal-->
+                          
+                            <div class="modal fade" id="editModal{{ post.id }}" tabindex="-1" role="dialog">
+                              <div class="modal-dialog modal-lg modal-dialog-centered bg-muted" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title">Edit Post</h5>
+                                          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                      </div>
+                                      
+                                            <form id="form{{ post.id }}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                  <div class='row'>
+                                                    <div class='col-3'>
+                                                        <div class="form-group mb-2">
+                                                        <label>Title</label>
+                                                        <input type="text" name="title" value="{{ post.title }}" class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                          <label>Featured Image</label>
+                                                          
+                                                          <div class="mb-2">
+                                                              {% if post.featured_image %}
+                                                                  <img id="preview-target-{{ post.id }}" src="{{ post.featured_image.url }}" style="width: 120px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                                                              {% else %}
+                                                                  <img id="preview-target-{{ post.id }}" src="#" style="width: 120px; height: 80px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; display: none;">
+                                                              {% endif %}
+                                                          </div>
+
+                                                          <input type="file" name="featured_image" class="form-control image-preview-input" data-id="{{ post.id }}">
+                                                      </div>
+                                                    </div>
+                                                    <div class='col-3'>
+                                                              <div class="form-group mb-2">
+                                                                  <label>Category</label>
+                                                                  <select name="category" class="form-control">
+                                                                      {% for cat in categories %} <option value="{{ cat.id }}" {% if cat.id == post.category.id %}selected{% endif %}>
+                                                                              {{ cat.category_name }}
+                                                                          </option>
+                                                                      {% endfor %}
+                                                                  </select>
+                                                              </div>
+                                                    </div>
+                                                    <div class='col-6'>
+                                                                  <div class="form-group mb-2">
+                                                                      <label>Short Description</label>
+                                                                      <input type="text" name="short_descriptions" value="{{ post.short_descriptions }}" class="form-control">
+                                                                  </div>
+                                                    </div>
+                                                  </div>
+                                                    <div class='row'>
+                                                    <div class='col'>
+                                                      <div class="form-group mb-2">
+                                                        <label>Blog Body</label>
+                                                        <textarea name="blog_body" class="form-control" rows="4">{{ post.blog_body }}</textarea>
+                                                        <button class='btn btn-sm btn-success save-btn' type='button' data-id="{{ post.id }}">Submit</button>
+                                                    <button type="button" class="btn btn-secondary  btn-sm" data-dismiss="modal">Close</button>
+                                                     </div>
+                                                  </div>
+                                                  
+                                                  </div>
+                                                    
+                                                </div>
+                                            </form>
+                                  </div>
+                              </div>
+                          </div>
+                          <!--End Modal-->
+                          <td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+          </table>
+      </div>
+      
+      {% else %}
+
+      <h3>You don't have any post yet</h3>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock hero %} {% block content %} {% endblock content %}

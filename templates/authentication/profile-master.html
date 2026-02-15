@@ -1,27 +1,115 @@
 <div class="row justify-content-center">
-	  		<div class="col-sm-4 ">
-	  			<div class="profile-img">
-	  			
-	  				<img src="{{profile.avater.url}}">
-	  			</div>
-                <div class='profile-bio'>
-                        <small>{{profile.bio}}</small>
-                </div>
-	  		</div>	  		
+  <div class="col-sm-4">
+    <div class="profile-img">
+      <img src="{{profile.avater.url}}" />
+	 
+    </div>
+    <div class="profile-bio">
+      <small>{{profile.bio}}</small>
+    </div>
+	 
+  </div>
 
-	  		<div class="col-sm-5">
-	  			<div class="profile-name">
-	  				<h2>{{profile.user.first_name |upper}} {{profile.user.last_name |upper}}</h2>
-                      
-	  			</div>
-              
-                <div class="profile-meta ">
-                    <div class='profile-data'>
-                        <h3 class='text'>An incredible {{profile.profession}}</h3>
-                        <p class="date mt-2">Born at {{profile.dob}}</p><br>
-                        <small class="date mt-2 text-muted"> Joined {{profile.user.date_joined | timesince}} ago</small>
-                    </div>
-	  			</div>
-	  		</div>
-	  		<!-- hero meta -->
-	  	</div>
+  <div class="col-sm-5">
+    <div class="profile-name">
+      <h2>
+        {{profile.user.first_name |upper}} {{profile.user.last_name |upper}}
+      </h2>
+    </div>
+
+    <div class="profile-meta row">
+      <div class="profile-data col-9">
+        <h3 class="text">An incredible {{profile.profession}}</h3>
+        <p class="date mt-2">Born at {{profile.dob}}</p>
+        <br />
+        <small class="date mt-2 text-muted">
+          Joined {{profile.user.date_joined | timesince}} ago</small>
+      </div>
+	  <div class='col-1 mt-5'>
+     {% if request.path == '/accounts/profile/' %}
+      <a type="button" 
+                                  class="profile-edit-btn" 
+                                  data-toggle="modal" 
+                                  data-target="#edit{{profile.id}}" 
+                                  data-id="{{ profile.id }}" 
+                                  data-url="{% url 'edit-profile' request.user.prof_user.id %}"><i class="fa fa-edit text-success"></i>
+                            </a>
+    {% endif %}
+		</div>
+    </div> 
+  </div>
+  <!-- hero meta -->
+  <div
+    class="modal fade"
+    id="edit{{profile.id}}"
+    data-backdrop="static"
+    data-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+			<form id="profileUpdateForm" action="{% url 'edit-profile' request.user.prof_user.id %}" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <h4 class="mb-3">Personal Information</h4>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>First Name</label>
+            {{ userform.first_name }}
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Last Name</label>
+            {{ userform.last_name }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label>Email (Non-editable)</label>
+        {{ userform.email }}
+    </div>
+
+    <hr>
+    <h4 class="mb-3">Profile Details</h4>
+    
+    <div class="mb-3">
+        <label>Designation</label>
+        {{ profileForm.profession}}
+    </div>
+
+    <div class="mb-3">
+        <label>Bio</label>
+        {{ profileForm.bio }}
+    </div>
+
+    <div class="mb-3">
+        <label>Profile Image</label>
+        {{ profileForm.avater }}
+    </div>
+
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary profile-save-btn" id='submitBtn' data-id={{profile.id}}>Save</button>
+        </div>
+      </form>
+		</div>
+      
+      </div>
+    </div>
+  </div>
+</div>

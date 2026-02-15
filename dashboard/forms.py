@@ -14,7 +14,7 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model=Blog
-        fields=['title','category','featured_image','short_descriptions','blog_body','status','is_featured']
+        fields=['title','category','featured_image','short_descriptions','blog_body']
         labels={
             'short_descriptions':'Description',
             'blog_body':'Write Content',
