@@ -1,4 +1,5 @@
 import uuid
+from django.contrib.auth.views import PasswordResetView
 from django.utils.text import slugify
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
@@ -178,6 +179,25 @@ def change_password(request):
     }
     return render(request,'authentication/change-password.html',context)
 
-@login_required
-def reset_password(request):
-    return render(request,'authentication/reset-password.html')
+
+class CustomResetPasswordView(PasswordResetView):
+    template_name='authentication/reset-password-form.html'
+    
+    def post(self,request,*args,**kwargs):
+        username=request.POST.get('username')
+
+        try:
+            user=User.objects.get(username=username)
+            if user.email:
+                
+                request.POST = request.POST.copy()
+                request.POST['email'] = user.email
+                return super().post(request, *args, **kwargs)
+            else:
+                messages.error(request, "User doesn't have email!")
+        except User.DoesNotExist:
+            messages.error(request, "Username doesn't found!")
+        
+        return render(request, self.template_name)
+
+    
