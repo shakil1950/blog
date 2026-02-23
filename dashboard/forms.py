@@ -16,9 +16,12 @@ class PostForm(forms.ModelForm):
         model=Blog
         fields=['title','category','featured_image','short_descriptions','blog_body']
         labels={
-            'short_descriptions':'Description',
+            'short_descriptions':'Short Description',
             'blog_body':'Write Content',
             'is_featured':'Featured This Post'
+        }
+        widgets={
+            'short_descriptions':forms.TextInput()
         }
 
 class UserForm(UserCreationForm):

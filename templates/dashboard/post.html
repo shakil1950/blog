@@ -14,8 +14,7 @@
     <a
       href="{% url "add_post" %}"
       class="btn btn-sm btn-success float-right mb-2 mx-5"
-      data-toggle="modal"
-      data-target="#staticBackdrop"
+     
       >Add New</a
     >
    
@@ -58,7 +57,8 @@
         {% endfor %}
       </tbody>
     </table>
-    <!--     Modal  -->
+    {% include "home/paginator.html" with page=post %}
+  
           {% else %}
           <h5>No content to show as permission violated</h5>
     {% endif %}

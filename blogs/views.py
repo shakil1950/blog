@@ -24,7 +24,7 @@ def post_by_category(request,category_id):
 def blog_detail(request,slug):
     blog=get_object_or_404(Blog,slug=slug,status='Published')
     same_blog=Blog.objects.filter(category=blog.category).exclude(id=blog.id)
-    print(same_blog)
+   
     if request.method=='POST':
         com=Comments()
         com.user=request.user

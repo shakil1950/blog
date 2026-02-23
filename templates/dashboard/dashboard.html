@@ -5,8 +5,9 @@
 
 <div class='row'>
   {% comment %} Side bar {% endcomment %}
+   {% if request.user.is_staff %}
    {% include "dashboard/sidebar.html" %}
-    <div class='col-md-10'>
+       <div class='col-md-10'>
         <div class='row'>
             <div class='col'>
                 <div class='card border-default mb-3'>
@@ -27,6 +28,10 @@
 
         </div>
     </div>
+    {% else %}
+            <h2>You don't have permission</h2><br>
+            <small class='text text-muted'> You are not staff user</small>
+    {% endif %}
 </div>
 
 {% endblock content %}

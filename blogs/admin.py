@@ -10,7 +10,7 @@ class BlogAdmin(admin.ModelAdmin):
                   'status']
     prepopulated_fields={'slug':('title',)}
     search_fields=('id','title','category__category_name','status')
-    list_editable=['is_featured']
+    list_editable=['is_featured','status']
     list_per_page=10
     
     

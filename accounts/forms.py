@@ -1,13 +1,22 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from .models import Profile
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 
+User=get_user_model()
 
 class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
     class Meta:
-        model=get_user_model()
-        fields=['email','username','password1','password2']
+        model = User
+        fields = ['username', 'email']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Email already used")
+        return email
 
 
 class UserEditForm(forms.ModelForm):

@@ -1,7 +1,22 @@
+{% load static %}
 <div class="row justify-content-center">
   <div class="col-sm-4">
     <div class="profile-img">
-      <img src="{{profile.avater.url}}" />
+      {% comment %} <img src="{{profile.avater.url}}" /> {% endcomment %}
+          {% if user.is_authenticated %}
+          {% load socialaccount %}
+          {% get_social_accounts user as accounts %}
+
+                {% if accounts.google %}
+                    <img src="{{ accounts.google.0.get_avatar_url }}" 
+                        alt="Profile Image" 
+                        >
+                {% else %}
+                    <img src="{{profile.avater.url}}" 
+                        alt="Default" 
+                        >
+                {% endif %}
+          {% endif %}
 	 
     </div>
     <div class="profile-bio">
@@ -16,27 +31,45 @@
         {{profile.user.first_name |upper}} {{profile.user.last_name |upper}}
       </h2>
     </div>
-
-    <div class="profile-meta row">
-      <div class="profile-data col-9">
-        <h3 class="text">An incredible {{profile.profession}}</h3>
-        <p class="date mt-2">Born at {{profile.dob}}</p>
-        <br />
-        <small class="date mt-2 text-muted">
-          Joined {{profile.user.date_joined | timesince}} ago</small>
-      </div>
-	  <div class='col-1 mt-5'>
-     {% if request.path == '/accounts/profile/' %}
-      <a type="button" 
-                                  class="profile-edit-btn" 
-                                  data-toggle="modal" 
-                                  data-target="#edit{{profile.id}}" 
-                                  data-id="{{ profile.id }}" 
-                                  data-url="{% url 'edit-profile' request.user.prof_user.id %}"><i class="fa fa-edit text-success"></i>
-                            </a>
-    {% endif %}
-		</div>
-    </div> 
+    <!--Meta-->
+    {% load socialaccount %}
+          {% get_social_accounts user as accounts %}
+          {% if accounts.google %}
+              <div class='profile-meta'>
+                 <div class="profile-data col-9">
+                    <h3 class="text">logged in as social user</h3>
+                    
+                    <br />
+                    <small class="date mt-2 text-muted">
+                      login {{request.user.last_login | timesince}} ago</small>
+                  </div>  
+                </div> 
+            {% else %}
+                  
+                
+            <div class="profile-meta row">
+                  <div class="profile-data col-9">
+                    <h3 class="text">An incredible {{profile.profession}}</h3>
+                    <p class="date mt-2">Born at {{profile.dob}}</p>
+                    <br />
+                    <small class="date mt-2 text-muted">
+                      Joined {{profile.user.date_joined | timesince}} ago</small>
+                  </div>
+                <div class='col-1 mt-5'>
+                      {% if request.path == '/accounts/profile/' %}
+                        <a type="button" 
+                                                    class="profile-edit-btn" 
+                                                    data-toggle="modal" 
+                                                    data-target="#edit{{profile.id}}" 
+                                                    data-id="{{ profile.id }}" 
+                                                    data-url="{% url 'edit-profile' request.user.prof_user.id %}"><i class="fa fa-edit text-success"></i>
+                                              </a>
+                      {% endif %}
+                </div>
+            </div> 
+        {% endif %}
+    <!--End meta-->
+      
   </div>
   <!-- hero meta -->
   <div

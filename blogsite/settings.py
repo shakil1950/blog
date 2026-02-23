@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+SITE_ID = 1
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,11 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'blogs',
     "crispy_forms",
     "crispy_bootstrap4",
     "dashboard",
-    'accounts'
+    'accounts',
+
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -57,8 +64,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 ROOT_URLCONF = 'blogsite.urls'
 
 TEMPLATES = [
@@ -77,6 +101,15 @@ TEMPLATES = [
         },
     },
 ]
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+SOCIALACCOUNT_AUTO_SIGNUP = True  
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*'] 
+ACCOUNT_LOGIN_METHODS = {'email'} 
+SOCIALACCOUNT_QUERY_EMAIL = True  
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_AUTHENTICATE_ON_REGISTRATION = False
+ACCOUNT_UNIQUE_EMAIL = True
 
 WSGI_APPLICATION = 'blogsite.wsgi.application'
 
@@ -133,7 +166,7 @@ MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR/'media'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -143,4 +176,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shakilahmed.pbl@gmail.com' 
 EMAIL_HOST_PASSWORD = 'odhzphwwpyupwobd'
 # settings.py
-DEFAULT_FROM_EMAIL = '</>DevDiary<shakilahmed.pbl@gmail.com>'
+DEFAULT_FROM_EMAIL = 'DevDiary<shakilahmed.pbl@gmail.com>'

@@ -1,5 +1,5 @@
 {% extends "home/base.html" %} 
-
+{% load crispy_forms_tags %}
 
 {% block title %} All Category {% endblock title %}
 {% block content %}
@@ -12,13 +12,39 @@
 
     {% if perms.blogs.add_category %}
     <a
-      href="{% url "add_categories" %}"
-      class="btn btn-sm btn-success float-right mb-2 mx-5"
-      data-toggle="modal"
-      data-target="#staticBackdrop"
+     type="button" data-toggle="modal" data-target="#addcategory"
+      class="btn btn-sm btn-success float-right mb-2 mx-5 text-light"
+
       >Add New</a
     >
+    <!-- Modal -->
+<div class="modal fade" id="addcategory" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+              <div class='rounded border-primary'>
+                    <form action="{% url "add_categories" %}" method="POST">
+                        {% csrf_token %}
+                        {{form | crispy}}
+                        
+                          <div class="modal-footer">
+                             <button class='btn btn-sm btn-success' type='submit' id='form_submit'>Submit</button>
+                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+                          </div>
+                    </form>
+              </div>
+      </div>
     
+    </div>
+  </div>
+</div>
     {% endif %}
     
     <table class="table table-hover">
@@ -40,7 +66,9 @@
           <td>{{cat.updated_at}}</td>
           <td>
             {% if perms.blogs.add_category %}
-            <a href="{% url "edit_categories" cat.id %}"><i class="fa fa-edit text-success"></i></a> &nbsp;
+            {% comment %} <a href="{% url "edit_categories" cat.id %}"><i class="fa fa-edit text-success"></i></a> &nbsp; {% endcomment %}
+             <a type='button' data-toggle="modal" data-target="#edit{{cat.id}}"
+                  class="btn btn-sm text-light"><i class="fa fa-edit text-success"></i></a>
             {% endif %}
             {% if perms.blogs.delete_category %}
              <a href="{% url "delete_categories" cat.id %}"><i class="fa fa-trash text-danger"></i></a>
@@ -50,6 +78,40 @@
           </td>
        
         </tr>
+
+          <!--Modal-->
+          <div class="modal fade" id="edit{{cat.id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Add Category</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                            <div  class='rounded border-primary'>
+                                  <form action="{% url "edit_categories" cat.id %}" method="POST">
+                                      {% csrf_token %}
+                                      <div class="form-group">
+                                          <label for="category_name">Category Name</label>
+                                          <input type="text" name="category_name" value="{{ cat.category_name }}" class="form-control" required>
+                                          </div>
+                                      
+                                        <div class="modal-footer">
+                                          <button class='btn btn-sm btn-success' type='submit' id='form_submit'>Submit</button>
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      
+                                        </div>
+                                  </form>
+                            </div>
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+              <!--End Modal-->
+
         {% endfor %}
       </tbody>
     </table>

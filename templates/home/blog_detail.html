@@ -48,9 +48,10 @@ Details
 	<div class="row justify-content-center">
 		<!-- Share buttons -->
 		<div class="col-lg-1 text-left mb-3 fixed" id="social-share">
-			<a class="btn  btn-light m-2" href="#"><i class="fab fa-facebook-f"></i></a>
-			<a class="btn  btn-light m-2" href="#"><i class="fab fa-google"></i></a>
-			<a class="btn  btn-light m-2" href="#"><i class="fab fa-twitter"></i></a>
+			<a class="btn  btn-light m-2" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+			<a class="btn  btn-light m-2" href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+			<a class="btn  btn-light m-2" href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}" target="_blank"><i class="fab fa-twitter"></i></a>
+			<a class="btn  btn-light m-2" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su={{ post.title|urlencode }}&body=You may read this post: {{ request.build_absolute_uri|urlencode }}" target="_blank"><i class="fas fa-envelope"></i></a>
 		</div>
 
 		<!-- the content -->

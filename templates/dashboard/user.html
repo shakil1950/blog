@@ -12,8 +12,7 @@
     <a
       href="{% url "add_user" %}"
       class="btn btn-sm btn-success float-right mb-2 mx-5"
-      data-toggle="modal"
-      data-target="#staticBackdrop"
+
       >Add New</a
     >
     
@@ -61,7 +60,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <!--     Modal  -->
+
          {% else %}
          <h5>You don't have permission</h5>
       {% endif %} 

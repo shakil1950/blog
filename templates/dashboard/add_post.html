@@ -7,13 +7,33 @@
    {% include "dashboard/sidebar.html" %}
   <div class="col-md-10">
     <h4>Add Post</h4>
-    <div style="width:40%" class='rounded border-primary'>
+    <div  class='rounded border-primary'>
         <form action="#" method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
 
-            {{forms | crispy}}
+            <div class='row'>
+              <div class='col'>
+                {{forms.title |as_crispy_field}}
+                {{forms.category |as_crispy_field}}
+                
+              </div>
+              <div class='col'>
+                {{forms.featured_image |as_crispy_field}}
+                {{forms.short_descriptions|as_crispy_field}}
+                
+
+              </div>
+            
+            </div>
+            <div class='row'>
+              <div class='col-12'>
+                  {{forms.blog_body |as_crispy_field}}
+              </div>
+            
+            </div>
             
             <button class='btn btn-sm btn-success' type='submit' id='form_submit'>Submit</button>
+            <a href="{% url "view_post" %}" class='btn btn-sm btn-success'>Back</a>
         </form>
     </div>
 

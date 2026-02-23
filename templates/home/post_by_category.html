@@ -8,31 +8,36 @@
       {% block content %}
       
    
-      <h3 class="fst-italic border-bottom text-warning mx-3 px-1">{{category}}</h3>
+      <h3 class="fst-italic border-bottom text-secondary mx-3 px-1">{{category}}</h3>
 
- 
-      <div class="row mb-2">
-        {% if posts %}
-        
+
+
        
-        {% for post in posts %} 
-        <div class="col-md-4">
-          <div class="card border-0">
-            <div class="card-body">
-              <h3 class="text-info"><a href='{% url "blog_detail" post.slug %}'>{{post.title | upper}} </a></h3>
-              <small class="mb-1 text-muted"
-                >{{post.created_at | timesince}} ago | {{post.author}}</small
-              >
-              <p class="card-text">{{post.short_descriptions}}</p>
-            </div>
-          </div>
-        </div>
-        
-         {% endfor %}
-          {% else %}
-          <h4 class="text-danger mx-4 px-2">No posts available in this category</h4>
-        {% endif %}
-      </div>
+
+     <div class="row justify-content-center">
+      {% if posts %}
+		{% for post in posts %}
+		<div class="col-xl-6 col-lg-12 text-center">
+			<a href="{% url "blog_detail" post.slug %}">
+			<div class="article-card">
+			<div class="article-img">
+				<img src="{{post.featured_image.url}}">
+			</div>
+
+				<div class="article-meta text-left">
+					<h2>{{post.title | upper}}</h2>
+					<span><small class='text text-muted'>{{post.author}} | {{post.created_at | timesince}} ago</small></span>
+					<p>{{post.short_descriptions |truncatewords:20}}</p>
+				</div>
+			</div>
+			</a>
+		</div>
+		{% endfor %}
+    {% else %}
+    <h4>No post</h4>
+    {% endif %}
+  </div>
+
      
-     {% endblock %}
+  {% endblock %}
  
