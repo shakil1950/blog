@@ -34,4 +34,13 @@ urlpatterns = [
     path('social/accounts/', include('allauth.urls')),
 
 
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # প্রোডাকশনে মিডিয়া ফাইল দেখানোর জন্য এই ম্যানুয়াল লাইনটি যোগ করতে পারেন
+    from django.views.static import serve
+    from django.urls import re_path
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
