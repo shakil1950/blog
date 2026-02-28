@@ -117,6 +117,7 @@ def edit_post(request,slug):
             dataSave=forms.save(commit=False)
             base_slug=slugify(forms.cleaned_data['title'])
             dataSave.slug=f"{base_slug}-{str(uuid.uuid4())[:4]}"
+            dataSave.status='Draft'
             dataSave.save()
             messages.success(request,'Post edit successfully!')
             return redirect('view_post')
