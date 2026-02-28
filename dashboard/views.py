@@ -140,8 +140,11 @@ def delete_post(request,slug):
 @login_required
 def view_user(request):
     user=User.objects.all().exclude(id=request.user.id)
+    user_paginator=Paginator(user,4)
+    page_number = request.GET.get('page', 1)
+    users=user_paginator.get_page(page_number)
     context={
-        'users':user
+        'users':users
     }
     return render(request,'dashboard/user.html',context)
 
