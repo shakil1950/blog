@@ -1,3 +1,29 @@
-<h3>
-        <h3 class="fst-italic border-bottom text-warning mx-3 px-1">404 Not Found</h3>
-</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ওরে বাবা! ৪০৪ এরর - শাকিল ভাইর ব্লগ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .error-container { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .error-code { font-size: 150px; font-weight: 900; color: #dc3545; margin-bottom: 0; line-height: 1; text-shadow: 4px 4px 0px #fff, 8px 8px 0px rgba(0,0,0,0.1); }
+        .error-message { font-size: 24px; color: #333; margin-top: 20px; font-weight: 600; }
+        .btn-home { background-color: #007bff; color: white; border-radius: 30px; padding: 12px 30px; margin-top: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,123,255,0.3); }
+        .btn-home:hover { background-color: #0056b3; transform: translateY(-3px); color: white; }
+        .illustration { max-width: 300px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container error-container">
+    <div>
+        <div class="error-code">404</div>
+        <div class="error-message">OPPS! Page not found  😅</div>
+        <a href="{% url "home" %}" class="btn btn-home">Go to home</a>
+    </div>
+</div>
+
+</body>
+</html>
